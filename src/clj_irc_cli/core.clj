@@ -24,5 +24,7 @@
 
     (enqueue ch "NICK k3ny")
     (enqueue ch "USER k3ny 8 *  : Paul Mutton")
-    (enqueue ch "JOIN #clojure"))
+    (enqueue ch "JOIN #clojure")
+    (enqueue ch "PRIVMSG #clojure :test..") ;; Self messages aren't returned from the server
+    )
 
