@@ -1,3 +1,7 @@
+;; http://oreilly.com/pub/h/1963
+;; http://nakkaya.com/2010/02/10/a-simple-clojure-irc-client/
+;; http://www.haskell.org/haskellwiki/Roll_your_own_IRC_bot#Where_to_now.3F
+
 (ns clj-irc-cli.core
   (:require [clojure.core.async :as a]))
 
