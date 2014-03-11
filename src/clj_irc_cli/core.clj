@@ -10,8 +10,10 @@
                     :frame (string :utf-8 :delimiters ["\r\n"])})))
 
     (enqueue ch "GET / HTTP/1.1 \n HOST: localhost \n")
-
-    (wait-for-message ch))
+    (loop []
+      (when-let [msg (wait-for-message ch)]
+        (println msg)
+        (recur))))
 
 
 (comment "tcp server"
