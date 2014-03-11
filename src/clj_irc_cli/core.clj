@@ -1,26 +1,24 @@
-(ns clj-irc-cli.core)
+(ns clj-irc-cli.core
+  (:require [clojure.core.async :as a]))
 
 (use 'lamina.core 'aleph.tcp 'gloss.core)
 
 #_(do
     (def ch
       (wait-for-result
-       (tcp-client {:host "localhost",
-                    :port 80,
+       (tcp-client {:host "irc.freenode.net",
+                    :port 6667,
                     :frame (string :utf-8 :delimiters ["\r\n"])})))
 
-    (enqueue ch "GET / HTTP/1.1 \n HOST: localhost \n")
-    (loop []
+    
+    (a/go-loop []
       (when-let [msg (wait-for-message ch)]
+        (when (.contains msg "PING")
+          (enqueue ch "PONG"))
         (println msg)
-        (recur))))
+        (recur)))
 
+    (enqueue ch "NICK k3ny")
+    (enqueue ch "USER k3ny 8 *  : Paul Mutton")
+    (enqueue ch "JOIN #clojure"))
 
-(comment "tcp server"
-         (use 'lamina.core 'aleph.tcp 'gloss.core)
-
-         (defn handler [ch client-info]
-           (receive-all ch
-                        #(enqueue ch (str "You said " %))))
-
-         (start-tcp-server handler {:port 10000, :frame (string :utf-8 :delimiters ["\r\n"])}))
