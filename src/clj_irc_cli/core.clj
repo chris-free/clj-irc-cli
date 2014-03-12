@@ -14,7 +14,7 @@
         (enqueue ch "PONG"))
       (when (.contains msg "PRIVMSG #clojure")
         (println (str
-                  (second (re-matches #"([^\s]+).*" msg))
+                  (second (re-matches #":([a-zA-Z]+).*" msg))
                   " says: "
                   (second (re-matches #".*PRIVMSG #clojure :(.*)" msg)))))
       #_(println msg)
