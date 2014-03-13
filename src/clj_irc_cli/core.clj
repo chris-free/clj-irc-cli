@@ -9,22 +9,22 @@
                        :port 6667,
                        :frame (string :utf-8 :delimiters ["\r\n"])}))]
   
-  (enqueue ch "NICK k3ny")
-  (enqueue ch "USER k3ny 8 *  : Paul Mutton")
-  (enqueue ch "JOIN #abc123thisisatest")
+  (enqueue ch "NICK clojure-user")
+  (enqueue ch "USER clojure-user 8 *  : Jonny Blogger")
+  (enqueue ch "JOIN #clojure")
   
   (go-loop []
     (when-let [msg (wait-for-message ch)]
       (when (.contains msg "PING")
         (enqueue ch "PONG"))
-      (when (.contains msg "PRIVMSG #abc123thisisatest")
+      (when (.contains msg "PRIVMSG #clojure")
         (println (str
                   (second (re-matches #":([a-zA-Z]+).*" msg))
                   " says: "
-                  (second (re-matches #".*PRIVMSG #abc123thisisatest :(.*)" msg)))))
+                  (second (re-matches #".*PRIVMSG #clojure :(.*)" msg)))))
       (recur)))
   
   (loop []
     (let [input (read-line)]
-      (enqueue ch (str "PRIVMSG #abc123thisisatest :" input))
+      (enqueue ch (str "PRIVMSG #clojure :" input))
       (recur))))
